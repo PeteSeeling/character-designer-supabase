@@ -64,7 +64,7 @@ export async function updateBottom(value){
     return checkError(response);    
 }
 
-export async function updateChatchphrases(value){
+export async function updateCatchphrases(value){
     const currentUserId = client.auth.user().id;
 
     const response = await client
@@ -132,5 +132,9 @@ export async function logout() {
 }
 
 function checkError({ data, error }) {
-    return error ? console.error(error) : data;
+    return error ? console.log(error) : data;
+}
+
+export async function getCatchPhrase(){
+    
 }
