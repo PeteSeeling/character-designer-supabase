@@ -92,10 +92,12 @@ export async function updateCharacter(part, value){
     return checkError(response);    
 }
 export async function getCatchPhrase(){
+    
     const newCatchPhrase = await client
         .from('characters')
-        .select('catchphrases');
-
+        .select('catchphrases')
+        .match();
+console.log(newCatchPhrase)
     return newCatchPhrase;
 }
 
@@ -105,7 +107,7 @@ export async function getCharacter() {
         .select()
         .match({ user_id: client.auth.user().id, })
         .single();
-      
+      console.log(response);
 
     checkError(response);    
 }

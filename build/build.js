@@ -85,12 +85,14 @@ window.addEventListener('load', async() => {
             middle: '',
             bottom: '',
             catchphrases: [],
+            
+            // catchphrases = character.catchphrases
+
+            // refreshData();
         });    
     }
 
-    catchphrases = character.catchphrases;
-
-    refreshData();
+  
 });
 
 logoutButton.addEventListener('click', () => {
@@ -112,6 +114,8 @@ async function displayCatchphrases(catchphrases) {
         p.textContent = catchphrase;
 
         catchphrasesEl.append(p);
+
+        return p;
         
        
     }}
