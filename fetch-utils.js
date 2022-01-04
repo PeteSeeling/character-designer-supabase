@@ -4,11 +4,12 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsI
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 export async function createCharacter(character){
+    const user = await getUser();
     const response = await client
         .from('characters')
         .insert({ 
             ...character, 
-            user_id: client.auth.user().id, 
+            user_id: user.user.id, 
         })
         .single();
 
@@ -30,68 +31,81 @@ export async function updateCharacter(part, value){
 */
 
 export async function updateHead(value){
-    const currentUserId = client.auth.user().id;
+    const user = await getUser();
 
     const response = await client
         .from('characters')
         .update({ head: value })
-        .match({ user_id: currentUserId });
+        .match({ user_id: user.user.id })
+        .single();
 
     return checkError(response);    
 }
 
 
 export async function updateMiddle(value){
-    const currentUserId = client.auth.user().id;
+    const user = await getUser();
 
     const response = await client
         .from('characters')
         .update({ middle: value })
-        .match({ user_id: currentUserId });
+        .match({ user_id: user.user.id })
+        .single();
 
     return checkError(response);    
 }
 
 
 export async function updateBottom(value){
-    const currentUserId = client.auth.user().id;
+    const user = await getUser();
 
     const response = await client
         .from('characters')
         .update({ bottom: value })
-        .match({ user_id: currentUserId });
+        .match({ user_id: user.user.id })
+        .single();
 
     return checkError(response);    
 }
 
 export async function updateCatchphrases(value){
-    const currentUserId = client.auth.user().id;
+    const user = await getUser();
 
     const response = await client
         .from('characters')
         .update({ catchphrases: value })
-        .match({ user_id: currentUserId });
+        .match({ user_id: user.user.id });
+        console.log(response);
 
     return checkError(response);    
 }
 
 
 export async function updateCharacter(part, value){
-    const currentUserId = client.auth.user().id;
+    const user = await getUser();
 
     const response = await client
         .from('characters')
         .update({ [part]: value })
-        .match({ user_id: currentUserId });
+        .match({ user_id: user.user.id });
 
     return checkError(response);    
+}
+export async function getCatchPhrase(){
+    const newCatchPhrase = await client
+        .from('characters')
+        .select('catchphrases');
+
+    return newCatchPhrase;
 }
 
 export async function getCharacter() {
     const response = await client
         .from('characters')
         .select()
-        .match({ user_id: client.auth.user().id, });
+        .match({ user_id: client.auth.user().id, })
+        .single();
+      
 
     checkError(response);    
 }
@@ -135,6 +149,3 @@ function checkError({ data, error }) {
     return error ? console.log(error) : data;
 }
 
-export async function getCatchPhrase(){
-    
-}

@@ -6,7 +6,9 @@ import {
     updateBottom,
     updateHead,
     updateMiddle,
-    updateCatchphrases
+    updateCatchphrases,
+    getCatchPhrase,
+    redirectToBuild,
 } from '../fetch-utils.js';
 
 checkAuth();
@@ -33,9 +35,9 @@ let catchphrases = [];
 
 headDropdown.addEventListener('change', async() => {
     headCount++;
-
-    await updateHead(headDropdown.value);
-    refreshData();
+ 
+    const newCharacter = await updateHead(headDropdown.value);
+    refreshData(newCharacter);
    
 });
 
@@ -67,8 +69,16 @@ catchphraseButton.addEventListener('click', async() => {
 });
 
 window.addEventListener('load', async() => {
-    let character = getCharacter();
-
+    let character = {
+        name: 'duck',
+        middle:'red',
+        bottom: 'single leg',
+        catchphrases: [],
+     
+        
+    };
+    
+    const userCharacter = await getCharacter();
     if (!character) {
         character = createCharacter({
             head: '',
@@ -92,6 +102,7 @@ function displayStats(headCount, middleCount, bottomCount) {
 }
 
 async function displayCatchphrases(catchphrases) {
+    getCatchPhrase(catchphrases);
     
     for (let catchphrase of catchphrases) {
         
